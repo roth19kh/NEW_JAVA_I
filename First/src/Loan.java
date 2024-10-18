@@ -1,3 +1,6 @@
+import org.w3c.dom.Text;
+
+import javax.swing.*;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,26 +24,27 @@ public class Loan {
         System.out.print("Enter Number of Months:");
         int month = cin.nextInt();
 
+
         System.out.println("Date receive: "+dateReceive.format(dateFormatter));
 
-        double interestRate = interestR/ 100;
+        double interestRate = interestR/100;
         double installment = (loan * interestRate) / (1 - Math.pow(1 + interestRate, - month));
         double totalInstallment = 0;
-        double remainingBalance = loan;
+        double debtBalance = loan;
         double interestMoney=0;
+        double totalInterest=0;
         System.out.println("=========================================================");
         System.out.println("Month \t\t\t\tInstallment\t\tPrinciple\t\tInterest\t\tDebt Balance");
         for (int i = 0; i < month; i++) {
-            double interest = remainingBalance * interestRate;
+            double interest = debtBalance * interestRate;
             double principal = installment - interest;
             totalInstallment += installment;
-            remainingBalance -= principal;
+            debtBalance -= principal;
             interestMoney += interest;
-
-            System.out.println(date.plusMonths(i).format(dateFormatter)+ "\t\t\t"+df.format(installment)+"\t\t\t"+df.format(principal)+"\t\t\t"+df.format(interest)+"\t\t\t" +df.format(remainingBalance));
+            totalInterest = (loan * interestRate) * (month + 1) / 2;
+            System.out.println(date.plusMonths(i).format(dateFormatter)+ "\t\t\t"+df.format(installment)+"\t\t\t"+df.format(principal)+"\t\t\t"+df.format(interest)+"\t\t\t" +df.format(debtBalance));
         }
-        System.out.println("=========================================================");
         System.out.println("Total Installment: "+df.format(totalInstallment));
-        System.out.println("Total Interest: "+df.format(interestMoney));
+        System.out.println("Total Interest: "+df.format(totalInterest));
     }
 }
