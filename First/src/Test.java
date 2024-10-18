@@ -9,37 +9,52 @@ public class Test {
         var date = LocalDate.now().plusMonths(1);
         var dateReceive = LocalDate.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         var df = new DecimalFormat("$#,##0.00");
 
-        System.out.print("Enter Loan Amount: ");
+        System.out.print("Enter Loan Amount $:");
         double loan = cin.nextDouble();
 
-        System.out.print("Enter Interest Rate (%): ");
+        System.out.print("Enter Interest Rate %:");
         double interestR = cin.nextDouble();
 
-        System.out.print("Enter Number of Months: ");
+        System.out.print("Enter Number of Months:");
         int month = cin.nextInt();
 
-        double interestRate = interestR/ 100;
-        System.out.println("Date receive: "+dateReceive.format(formatter));
-        double installment = (loan * interestRate) / (1 - Math.pow(1 + interestRate, - month));
+        System.out.println("Date receive: "+dateReceive.format(dateFormatter));
 
-
-        double totalInstallment = 0.0;
-        double totalInterest = 0.0;
+        double interestRate = interestR / 100;
+        double installment = (loan * interestRate) / (1 - Math.pow(1 + interestRate, -month));
+        double totalInstallment = 0;
         double remainingBalance = loan;
-        System.out.println("\n"+"Month \t\t\t\tInstallment\t\tPrinciple\t\tInterest\t\tDebt Balance");
-        for (int i = 0; i <= month-1; i++) {
+        double interestMoney = 0;
 
+        System.out.println("=========================================================");
+        System.out.println("Month \t\t\t\tInstallment\t\tPrinciple\t\tInterest\t\tDebt Balance");
+
+        for (int i = 0; i < month; i++) {
             double interest = remainingBalance * interestRate;
-            double principal = installment - interest;
-            totalInstallment += installment;
-            totalInterest += interest;
-            remainingBalance -= principal;
+            double principal;
 
-            System.out.println("Date: " + date.plusMonths(i).format(formatter)+ "\t"+df.format(installment)+"\t\t\t"+df.format(principal)+"\t\t\t"+df.format(interest)+"\t" +df.format(remainingBalance));
+            // Check if it's the last month
+            if (i == month - 1) {
+                principal = remainingBalance; // Pay off the remaining balance
+                installment = principal + interest; // Recalculate the final installment
+            } else {
+                principal = installment - interest;
+            }
+
+            totalInstallment += installment;
+            remainingBalance -= principal;
+            interestMoney += interest;
+
+            System.out.println(date.plusMonths(i).format(dateFormatter) + "\t\t\t" + df.format(installment)
+                    + "\t\t\t" + df.format(principal) + "\t\t\t" + df.format(interest)
+                    + "\t\t\t" + df.format(remainingBalance));
         }
-        System.out.println("Installment: "+df.format(totalInstallment));
+
+        System.out.println("=========================================================");
+        System.out.println("Total Installment: " + df.format(totalInstallment));
+        System.out.println("Total Interest: " + df.format(interestMoney));
     }
 }
