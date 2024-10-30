@@ -24,6 +24,7 @@ public class LoanII {
         interestRate /=100;
         double installment,interest,debt=loan;
         double principal =loan / month;
+        double totalInstallment =0;
 
         installment = (loan * interestRate) / (1 - Math.pow((1 + interestRate), -month));
         System.out.println("");
@@ -54,12 +55,12 @@ public class LoanII {
                             MyText.padRight(df.format(interest), 15, '-')+
                             MyText.padRight(df.format(debt), 15, '-')
             );
+            totalInstallment += installment;
         }
         System.out.println("============================================================");
         installment = (loan * interestRate) / (1 - Math.pow((1 + interestRate), -month));
 
         double totalInterest = (loan * interestRate) * (month + 1) / 2;
-        double totalInstallment = (principal * month) + totalInterest;
 
         System.out.println("Total Installment         ="+df.format(totalInstallment));
         System.out.println("Total Interest            ="+df.format(totalInterest));
