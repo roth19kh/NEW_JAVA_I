@@ -22,6 +22,6 @@ public class ArrayExcercide {
                 count++;
             }
         }
-        System.out.println("Number count:" + count);
+        System.out.println("Number count oo:" + count);
     }
 }
